@@ -17,6 +17,10 @@ public class soulArray {
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ContinueButtonHandler cbHandler = new ContinueButtonHandler();
+    PlayHandler playHandler = new PlayHandler();
+    SellHandler sellHandler = new SellHandler();
+    QuitHandler quitHandler = new QuitHandler();
+    BuyHandler buyHandler = new BuyHandler();
 
     private int coins = 5000;
 
@@ -99,6 +103,7 @@ public class soulArray {
     }
 
     public void mainMenu(){
+
         storyContinuePanel.setVisible(false);
         storyTextPanel.setVisible(false);
 
@@ -122,24 +127,28 @@ public class soulArray {
         play.setBackground(Color.black);
         play.setForeground(Color.green);
         play.setFont(normalFont);
+        play.addActionListener(playHandler);
         play.setFocusPainted(false);
 
         quit = new JButton("Quit");
         quit.setBackground(Color.black);
         quit.setForeground(Color.red);
         quit.setFont(normalFont);
+        quit.addActionListener(quitHandler);
         quit.setFocusPainted(false);
 
         buy = new JButton("Buy");
         buy.setBackground(Color.black);
         buy.setForeground(Color.white);
         buy.setFont(normalFont);
+        buy.addActionListener(buyHandler);
         buy.setFocusPainted(false);
 
         sell = new JButton("Sell");
         sell.setBackground(Color.black);
         sell.setForeground(Color.white);
         sell.setFont(normalFont);
+        sell.addActionListener(sellHandler);
         sell.setFocusPainted(false);
 
         menuButton.add(play);
@@ -147,6 +156,30 @@ public class soulArray {
         menuButton.add(buy);
         menuButton.add(sell);
 
+    }
+
+    public void games(){
+        menuPanel.setVisible(false);
+        menuButton.setVisible(false);
+        System.out.println("games");
+    }
+
+    public void buy(){
+        menuPanel.setVisible(false);
+        menuButton.setVisible(false);
+        System.out.println("buy");
+    }
+
+    public void sell(){
+        menuPanel.setVisible(false);
+        menuButton.setVisible(false);
+        System.out.println("sell");
+    }
+
+    public void quit(){
+        menuPanel.setVisible(false);
+        menuButton.setVisible(false);
+        System.out.println("quit");
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -169,7 +202,30 @@ public class soulArray {
                 mainMenu();
             }
         }
-        
+    }
+
+    public class PlayHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            games();
+        } 
+    }
+
+    public class SellHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            sell();
+        } 
+    }
+
+    public class QuitHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            quit();
+        } 
+    }
+
+    public class BuyHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            buy();
+        } 
     }
 
 }
