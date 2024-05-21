@@ -2,12 +2,14 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class soulArray {
 
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, storyTextPanel, storyContinuePanel;
-    JLabel titleTextLabel;
+    JPanel titleNamePanel, startButtonPanel, storyTextPanel, storyContinuePanel, menuPanel, menuButton;
+    JLabel titleTextLabel, menuTitle;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, storyButton, buy, sell, play, quit;
@@ -16,11 +18,19 @@ public class soulArray {
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ContinueButtonHandler cbHandler = new ContinueButtonHandler();
 
+    private int coins = 5000;
+
+
     public static void main(String[] args){
         new soulArray();
     }
 
     public soulArray(){
+
+        ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
+        ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
+        ArrayList<Integer> mainArrayPrice = new ArrayList<>(Arrays.asList(2000, 1800, 1500, 3500, 2300));
+        ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
         
         window = new JFrame();
         window.setSize(800, 600);
@@ -88,6 +98,57 @@ public class soulArray {
         storyContinuePanel.add(storyButton);
     }
 
+    public void mainMenu(){
+        storyContinuePanel.setVisible(false);
+        storyTextPanel.setVisible(false);
+
+        menuPanel = new JPanel();
+        menuPanel.setBounds(100, 100, 600, 150);
+        menuPanel.setBackground(Color.black);
+        menuTitle = new JLabel("MAIN MENU");
+        menuTitle.setForeground(Color.white);
+        menuTitle.setFont(titleFont);
+
+        menuPanel.add(menuTitle);
+        window.add(menuPanel);
+
+        menuButton = new JPanel();
+        menuButton.setBounds(225, 350, 300, 150);
+        menuButton.setBackground(Color.black);
+        menuButton.setLayout(new GridLayout(2, 2));
+        window.add(menuButton); 
+    
+        play = new JButton("Play");
+        play.setBackground(Color.black);
+        play.setForeground(Color.green);
+        play.setFont(normalFont);
+        play.setFocusPainted(false);
+
+        quit = new JButton("Quit");
+        quit.setBackground(Color.black);
+        quit.setForeground(Color.red);
+        quit.setFont(normalFont);
+        quit.setFocusPainted(false);
+
+        buy = new JButton("Buy");
+        buy.setBackground(Color.black);
+        buy.setForeground(Color.white);
+        buy.setFont(normalFont);
+        buy.setFocusPainted(false);
+
+        sell = new JButton("Sell");
+        sell.setBackground(Color.black);
+        sell.setForeground(Color.white);
+        sell.setFont(normalFont);
+        sell.setFocusPainted(false);
+
+        menuButton.add(play);
+        menuButton.add(quit);
+        menuButton.add(buy);
+        menuButton.add(sell);
+
+    }
+
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event){
             storyScreen();
@@ -105,7 +166,7 @@ public class soulArray {
             } else if (clickCount == 3) {
                 storyTextArea.setText("If you can beat me in a little game of course");
             } else if (clickCount == 4) {
-                //mainMenu();
+                mainMenu();
             }
         }
         
