@@ -15,6 +15,10 @@ public class soulArray {
     JButton startButton, storyButton, buy, sell, play, quit;
     JTextArea mainTextArea;
 
+    //organs
+    JPanel organsButtons;
+    JButton brain, guts, hands, heart, legs, eyes, lungs, kidney, teeth, skin;
+
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ContinueButtonHandler cbHandler = new ContinueButtonHandler();
     PlayHandler playHandler = new PlayHandler();
@@ -22,7 +26,12 @@ public class soulArray {
     QuitHandler quitHandler = new QuitHandler();
     BuyHandler buyHandler = new BuyHandler();
 
-    private int coins = 5000;
+    ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
+    ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
+    ArrayList<Integer> mainArrayPrice = new ArrayList<>(Arrays.asList(2000, 1800, 1500, 3500, 2300));
+    ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
+
+    private int coins = 50000;
 
 
     public static void main(String[] args){
@@ -30,11 +39,6 @@ public class soulArray {
     }
 
     public soulArray(){
-
-        ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
-        ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
-        ArrayList<Integer> mainArrayPrice = new ArrayList<>(Arrays.asList(2000, 1800, 1500, 3500, 2300));
-        ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
         
         window = new JFrame();
         window.setSize(800, 600);
@@ -174,13 +178,72 @@ public class soulArray {
     public void buy(){
         menuPanel.setVisible(false);
         menuButton.setVisible(false);
-        System.out.println("buy");
+        mainTextPanel.setVisible(true);
+        mainTextArea.setText("Which organ do you want to buy?");
+
+        coinsPanel = new JPanel();
+        coinsPanel.setBounds(80, 100, 600, 150);
+        coinsPanel.setBackground(Color.black);
+        coinsText = new JLabel();
+        coinsText.setText("Coins: " + coins);
+        coinsText.setForeground(Color.yellow);
+        coinsText.setFont(normalFont);
+        coinsPanel.add(coinsText);
+
+        organsButtons = new JPanel();
+        organsButtons.setBounds(225, 350, 300, 150);
+        organsButtons.setBackground(Color.black);
+        organsButtons.setLayout(new GridLayout(5, 1));
+        window.add(organsButtons); 
+
+        brain = choiceButton("Brain");
+        guts = choiceButton("Guts");
+        hands = choiceButton("Hands");
+        heart = choiceButton("Heart");
+        legs = choiceButton("Legs");
+
+        organsButtons.add(brain);
+        organsButtons.add(guts);
+        organsButtons.add(hands);
+        organsButtons.add(heart);
+        organsButtons.add(legs);
+        window.add(coinsPanel);
     }
 
     public void sell(){
         menuPanel.setVisible(false);
         menuButton.setVisible(false);
-        System.out.println("sell");
+        
+        mainTextPanel.setVisible(true);
+        mainTextArea.setText("Which organ do you want to sell?");
+
+        coinsPanel = new JPanel();
+        coinsPanel.setBounds(80, 100, 600, 150);
+        coinsPanel.setBackground(Color.black);
+        coinsText = new JLabel();
+        coinsText.setText("Coins: " + coins);
+        coinsText.setForeground(Color.yellow);
+        coinsText.setFont(normalFont);
+        coinsPanel.add(coinsText);
+
+        organsButtons = new JPanel();
+        organsButtons.setBounds(225, 350, 300, 150);
+        organsButtons.setBackground(Color.black);
+        organsButtons.setLayout(new GridLayout(5, 1));
+        window.add(organsButtons); 
+        //"EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"
+        eyes = choiceButton("Eyes");
+        lungs = choiceButton("Lungs");
+        kidney = choiceButton("Kidney");
+        teeth = choiceButton("Teeth");
+        skin = choiceButton("Skin");
+
+        organsButtons.add(eyes);
+        organsButtons.add(lungs);
+        organsButtons.add(kidney);
+        organsButtons.add(teeth);
+        organsButtons.add(skin);
+        window.add(coinsPanel);
     }
 
     public void quit(){
@@ -244,6 +307,18 @@ public class soulArray {
         public void actionPerformed(ActionEvent event){
             buy();
         } 
+    }
+
+    public JButton choiceButton(String text) {
+        JButton button;
+        button = new JButton();
+        button.setBackground(Color.black);
+        button.setForeground(Color.white);
+        button.setFont(normalFont);
+        button.setText(text);
+        button.setFocusPainted(false);
+        return button;
+    
     }
 
 }
