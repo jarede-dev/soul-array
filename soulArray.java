@@ -29,6 +29,7 @@ public class soulArray {
     SellHandler sellHandler = new SellHandler();
     QuitHandler quitHandler = new QuitHandler();
     BuyHandler buyHandler = new BuyHandler();
+    GoBackHandler goBackHandler = new GoBackHandler();
 
     ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
     ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
@@ -75,6 +76,20 @@ public class soulArray {
         window.add(titleNamePanel);
         window.add(startButtonPanel);
 
+        //go back to main menu button
+        goBackToMainPanel = new JPanel();
+        goBackToMainPanel.setBounds(10, 10, 100, 50);
+        goBackToMainPanel.setBackground(Color.black);
+        goBackToMainB = new JButton("Menu");
+        goBackToMainB.setBackground(Color.black);
+        goBackToMainB.setForeground(Color.white);
+        goBackToMainB.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        goBackToMainB.setFocusPainted(false);
+        goBackToMainB.addActionListener(goBackHandler);
+        goBackToMainPanel.add(goBackToMainB);
+        goBackToMainPanel.setVisible(false); // Initially hidden
+
+        window.add(goBackToMainPanel);
         window.setVisible(true);
     }
 
@@ -111,9 +126,11 @@ public class soulArray {
     }
 
     public void mainMenu(){
-
-        storyContinuePanel.setVisible(false);
-        mainTextPanel.setVisible(false);
+        if (storyContinuePanel != null) storyContinuePanel.setVisible(false);
+        if (mainTextPanel != null) mainTextPanel.setVisible(false);
+        if (coinsPanel != null) coinsPanel.setVisible(false);
+        if (organsButtons != null) organsButtons.setVisible(false);
+        if (gamesButtons != null) gamesButtons.setVisible(false);
 
         menuPanel = new JPanel();
         menuPanel.setBounds(100, 100, 600, 150);
@@ -164,6 +181,7 @@ public class soulArray {
         menuButton.add(buy);
         menuButton.add(sell);
 
+        goBackToMainPanel.setVisible(false);
     }
 
     public void choiceHandler(){
@@ -174,8 +192,9 @@ public class soulArray {
     }
 
     public void games(){
-        menuPanel.setVisible(false);
-        menuButton.setVisible(false);
+        goBackToMainPanel.setVisible(true);
+        if (menuPanel != null) menuPanel.setVisible(false);
+        if (menuButton != null) menuButton.setVisible(false);
         
         mainTextPanel.setVisible(true);
         mainTextArea.setText("Which game do you want to play?");
@@ -207,8 +226,10 @@ public class soulArray {
     }
 
     public void buy(){
-        menuPanel.setVisible(false);
-        menuButton.setVisible(false);
+        goBackToMainPanel.setVisible(true);
+        if (menuPanel != null) menuPanel.setVisible(false);
+        if (menuButton != null) menuButton.setVisible(false);
+
         mainTextPanel.setVisible(true);
         mainTextArea.setText("Which organ do you want to buy?");
 
@@ -242,8 +263,9 @@ public class soulArray {
     }
 
     public void sell(){
-        menuPanel.setVisible(false);
-        menuButton.setVisible(false);
+        goBackToMainPanel.setVisible(true);
+        if (menuPanel != null) menuPanel.setVisible(false);
+        if (menuButton != null) menuButton.setVisible(false);
         
         mainTextPanel.setVisible(true);
         mainTextArea.setText("Which organ do you want to sell?");
@@ -330,6 +352,7 @@ public class soulArray {
 
     public class QuitHandler implements ActionListener{
         public void actionPerformed(ActionEvent event){
+            goBackToMainPanel.setVisible(false);
             quit();
         } 
     }
@@ -337,6 +360,12 @@ public class soulArray {
     public class BuyHandler implements ActionListener{
         public void actionPerformed(ActionEvent event){
             buy();
+        } 
+    }
+
+    public class GoBackHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            mainMenu();
         } 
     }
 
@@ -349,7 +378,5 @@ public class soulArray {
         button.setText(text);
         button.setFocusPainted(false);
         return button;
-    
     }
-
 }
