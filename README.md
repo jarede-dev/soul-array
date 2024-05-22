@@ -1,5 +1,6 @@
 - added title screen
 - added main menu
+- added "go back to main menu" button
 - implemented quit
 - implemented play screen GUI, sell screen GUI, and buy screen GUI (no functionalities yet)
   
