@@ -4,20 +4,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-//put everything in main menu (play, buy, sell, quit) in choice handler. Handle the control flow there
+
 public class soulArray {
 
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel;
+    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel;
     JLabel titleTextLabel, menuTitle, coinsText;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, storyButton, buy, sell, play, quit;
+    JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB;
     JTextArea mainTextArea;
 
     //organs
     JPanel organsButtons;
     JButton brain, guts, hands, heart, legs, eyes, lungs, kidney, teeth, skin;
+
+    //games
+    JPanel gamesButtons;
+    JButton danceWdevilB, horseRacingB, rockPaperScissorsB;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ContinueButtonHandler cbHandler = new ContinueButtonHandler();
@@ -172,7 +176,34 @@ public class soulArray {
     public void games(){
         menuPanel.setVisible(false);
         menuButton.setVisible(false);
-        System.out.println("games");
+        
+        mainTextPanel.setVisible(true);
+        mainTextArea.setText("Which game do you want to play?");
+
+        coinsPanel = new JPanel();
+        coinsPanel.setBounds(80, 100, 600, 150);
+        coinsPanel.setBackground(Color.black);
+        coinsText = new JLabel();
+        coinsText.setText("Coins: " + coins);
+        coinsText.setForeground(Color.yellow);
+        coinsText.setFont(normalFont);
+        coinsPanel.add(coinsText);
+
+        gamesButtons = new JPanel();
+        gamesButtons.setBounds(225, 350, 300, 150);
+        gamesButtons.setBackground(Color.black);
+        gamesButtons.setLayout(new GridLayout(3, 3));
+        window.add(gamesButtons);
+
+        danceWdevilB = choiceButton("Dance with the Devil");
+        horseRacingB = choiceButton("Horse Racing");
+        rockPaperScissorsB = choiceButton("Rock Paper Scissors");
+
+        gamesButtons.add(danceWdevilB);
+        gamesButtons.add(horseRacingB);
+        gamesButtons.add(rockPaperScissorsB);
+
+        window.add(coinsPanel);
     }
 
     public void buy(){
