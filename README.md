@@ -1,8 +1,8 @@
 - added title screen
 - added main menu
 - implemented quit
-
+- implemented GUI of buy and sell
+- 
 mga kulang:
-- functionalities of buttons in main menu
 - implement games when clicked play
-- implement buy and sell of organs
+- implement buy and sell of organs functionality
