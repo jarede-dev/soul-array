@@ -4,16 +4,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+//put everything in main menu (play, buy, sell, quit) in choice handler. Handle the control flow there
 public class soulArray {
 
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, storyTextPanel, storyContinuePanel, menuPanel, menuButton;
-    JLabel titleTextLabel, menuTitle;
+    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel;
+    JLabel titleTextLabel, menuTitle, coinsText;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, storyButton, buy, sell, play, quit;
-    JTextArea storyTextArea;
+    JTextArea mainTextArea;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ContinueButtonHandler cbHandler = new ContinueButtonHandler();
@@ -75,18 +75,18 @@ public class soulArray {
         titleNamePanel.setVisible(false);
         startButtonPanel.setVisible(false);
 
-        storyTextPanel = new JPanel();
-        storyTextPanel.setBounds(200, 200, 600, 150);
-        storyTextPanel.setBackground(Color.black);
-        window.add(storyTextPanel);
+        mainTextPanel = new JPanel();
+        mainTextPanel.setBounds(200, 200, 600, 150);
+        mainTextPanel.setBackground(Color.black);
+        window.add(mainTextPanel);
 
-        storyTextArea = new JTextArea("You've sold your soul to me");
-        storyTextArea.setBounds(200, 200, 600, 150);
-        storyTextArea.setBackground(Color.black);
-        storyTextArea.setForeground(Color.white);
-        storyTextArea.setFont(normalFont);
-        storyTextArea.setLineWrap(true);
-        storyTextPanel.add(storyTextArea);
+        mainTextArea = new JTextArea("You've sold your soul to me");
+        mainTextArea.setBounds(200, 200, 600, 150);
+        mainTextArea.setBackground(Color.black);
+        mainTextArea.setForeground(Color.white);
+        mainTextArea.setFont(normalFont);
+        mainTextArea.setLineWrap(true);
+        mainTextPanel.add(mainTextArea);
 
         storyContinuePanel = new JPanel();
         storyContinuePanel.setBounds(225, 350, 300, 150);
@@ -105,7 +105,7 @@ public class soulArray {
     public void mainMenu(){
 
         storyContinuePanel.setVisible(false);
-        storyTextPanel.setVisible(false);
+        mainTextPanel.setVisible(false);
 
         menuPanel = new JPanel();
         menuPanel.setBounds(100, 100, 600, 150);
@@ -158,6 +158,13 @@ public class soulArray {
 
     }
 
+    public void choiceHandler(){
+        //detect if a certain button is clicked
+        //do the functionality of that button
+
+        /*if buy button is clicked, buy() */
+    }
+
     public void games(){
         menuPanel.setVisible(false);
         menuButton.setVisible(false);
@@ -179,7 +186,18 @@ public class soulArray {
     public void quit(){
         menuPanel.setVisible(false);
         menuButton.setVisible(false);
-        System.out.println("quit");
+        mainTextPanel.setVisible(true);
+        mainTextArea.setText("quitting...");
+        // Create a timer to delay the exit by 3000ms (3 seconds)
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+                window.dispose();
+            }
+        });
+        timer.setRepeats(false); // Make sure the timer only runs once
+        timer.start();
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -193,11 +211,11 @@ public class soulArray {
         public void actionPerformed(ActionEvent event) {
             clickCount++;
             if (clickCount == 1) {
-                storyTextArea.setText("And now you regret it?");
+                mainTextArea.setText("And now you regret it?");
             } else if (clickCount == 2) {
-                storyTextArea.setText("Fine, you can have it back");
+                mainTextArea.setText("Fine, you can have it back");
             } else if (clickCount == 3) {
-                storyTextArea.setText("If you can beat me in a little game of course");
+                mainTextArea.setText("If you can beat me in a little game of course");
             } else if (clickCount == 4) {
                 mainMenu();
             }
