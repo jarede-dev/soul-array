@@ -13,7 +13,7 @@ public class soulArray {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB;
-    JTextArea mainTextArea;
+    JTextArea mainTextArea, messageTextArea;
 
     //organs
     JPanel organsButtons;
@@ -37,7 +37,8 @@ public class soulArray {
     ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
 
     private int coins = 50000;
-
+    ArrayList<String> boughtOrgans = new ArrayList<>();
+    ArrayList<String> soldOrgans = new ArrayList<>();
 
     public static void main(String[] args){
         new soulArray();
@@ -101,15 +102,22 @@ public class soulArray {
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(200, 200, 600, 150);
         mainTextPanel.setBackground(Color.black);
+        mainTextPanel.setLayout(new BorderLayout());
         window.add(mainTextPanel);
 
         mainTextArea = new JTextArea("You've sold your soul to me");
-        mainTextArea.setBounds(200, 200, 600, 150);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
         mainTextArea.setLineWrap(true);
-        mainTextPanel.add(mainTextArea);
+        mainTextPanel.add(mainTextArea, BorderLayout.NORTH);
+
+        messageTextArea = new JTextArea();
+        messageTextArea.setBackground(Color.black);
+        messageTextArea.setForeground(Color.green);
+        messageTextArea.setFont(normalFont);
+        messageTextArea.setLineWrap(true);
+        mainTextPanel.add(messageTextArea, BorderLayout.CENTER);
 
         storyContinuePanel = new JPanel();
         storyContinuePanel.setBounds(225, 350, 300, 150);
@@ -223,16 +231,27 @@ public class soulArray {
         gamesButtons.add(rockPaperScissorsB);
 
         window.add(coinsPanel);
+
+    }
+
+    public JButton choiceButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(Color.black);
+        button.setForeground(Color.white);
+        button.setFont(normalFont);
+        button.setFocusPainted(false);
+        return button;
     }
 
     public void buy(){
         goBackToMainPanel.setVisible(true);
         if (menuPanel != null) menuPanel.setVisible(false);
         if (menuButton != null) menuButton.setVisible(false);
-
+        
         mainTextPanel.setVisible(true);
         mainTextArea.setText("Which organ do you want to buy?");
-
+        messageTextArea.setText(""); // Clear the message area
+    
         coinsPanel = new JPanel();
         coinsPanel.setBounds(80, 100, 600, 150);
         coinsPanel.setBackground(Color.black);
@@ -241,35 +260,73 @@ public class soulArray {
         coinsText.setForeground(Color.yellow);
         coinsText.setFont(normalFont);
         coinsPanel.add(coinsText);
-
+    
         organsButtons = new JPanel();
         organsButtons.setBounds(225, 350, 300, 150);
         organsButtons.setBackground(Color.black);
         organsButtons.setLayout(new GridLayout(5, 1));
         window.add(organsButtons); 
-
+    
         brain = choiceButton("Brain");
+        brain.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buyOrgan("BRAIN", mainArray, mainArrayPrice);
+            }
+        });
+    
         guts = choiceButton("Guts");
+        guts.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buyOrgan("GUTS", mainArray, mainArrayPrice);
+            }
+        });
+    
         hands = choiceButton("Hands");
+        hands.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buyOrgan("HANDS", mainArray, mainArrayPrice);
+            }
+        });
+    
         heart = choiceButton("Heart");
+        heart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buyOrgan("HEART", mainArray, mainArrayPrice);
+            }
+        });
+    
         legs = choiceButton("Legs");
-
+        legs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buyOrgan("LEGS", mainArray, mainArrayPrice);
+            }
+        });
+    
         organsButtons.add(brain);
         organsButtons.add(guts);
         organsButtons.add(hands);
         organsButtons.add(heart);
         organsButtons.add(legs);
         window.add(coinsPanel);
+
+        if(mainArray.isEmpty()){
+            organsButtons.setVisible(false);
+            coinsPanel.setVisible(false);
+            messageTextArea.setVisible(false);
+            mainTextArea.setText("You win! You bought \nall your organs".toUpperCase());
+
+        }
     }
 
-    public void sell(){
+    public void sell() {
         goBackToMainPanel.setVisible(true);
         if (menuPanel != null) menuPanel.setVisible(false);
         if (menuButton != null) menuButton.setVisible(false);
         
         mainTextPanel.setVisible(true);
         mainTextArea.setText("Which organ do you want to sell?");
-
+        messageTextArea.setText(""); // Clear the message area
+    
         coinsPanel = new JPanel();
         coinsPanel.setBounds(80, 100, 600, 150);
         coinsPanel.setBackground(Color.black);
@@ -278,48 +335,146 @@ public class soulArray {
         coinsText.setForeground(Color.yellow);
         coinsText.setFont(normalFont);
         coinsPanel.add(coinsText);
-
+    
         organsButtons = new JPanel();
         organsButtons.setBounds(225, 350, 300, 150);
         organsButtons.setBackground(Color.black);
         organsButtons.setLayout(new GridLayout(5, 1));
         window.add(organsButtons); 
-        //"EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"
+    
         eyes = choiceButton("Eyes");
-        lungs = choiceButton("Lungs");
-        kidney = choiceButton("Kidney");
-        teeth = choiceButton("Teeth");
-        skin = choiceButton("Skin");
+        eyes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sellOrgan("EYES", sellArray, sellArrayPrice);
+            }
+        });
 
+        lungs = choiceButton("Lungs");
+        lungs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sellOrgan("LUNGS", sellArray, sellArrayPrice);
+            }
+        });
+
+        kidney = choiceButton("Kidney");
+        kidney.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sellOrgan("KIDNEY", sellArray, sellArrayPrice);
+            }
+        });
+
+        teeth = choiceButton("Teeth");
+        teeth.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sellOrgan("TEETH", sellArray, sellArrayPrice);
+            }
+        });
+
+        skin = choiceButton("Skin");
+        skin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sellOrgan("SKIN", sellArray, sellArrayPrice);
+            }
+        });
+    
         organsButtons.add(eyes);
         organsButtons.add(lungs);
         organsButtons.add(kidney);
         organsButtons.add(teeth);
         organsButtons.add(skin);
         window.add(coinsPanel);
+
+        if(sellArray.isEmpty()){
+            organsButtons.setVisible(false);
+            coinsPanel.setVisible(false);
+            messageTextArea.setVisible(false);
+            mainTextArea.setText("You've sold all \nyour available organs".toUpperCase());
+        }
     }
 
-    public void quit(){
-        menuPanel.setVisible(false);
-        menuButton.setVisible(false);
-        mainTextPanel.setVisible(true);
-        mainTextArea.setText("quitting...");
-        // Create a timer to delay the exit by 3000ms (3 seconds)
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-                window.dispose();
+    private void buyOrgan(String organ, ArrayList<String> organsList, ArrayList<Integer> pricesList) {
+        int index = organsList.indexOf(organ);
+        if (index != -1) {
+            int price = pricesList.get(index);
+            if (coins >= price) {
+                coins -= price;
+                coinsText.setText("Coins: " + coins);
+                organsList.remove(index);
+                pricesList.remove(index);
+                // Inform the user
+                messageTextArea.setText("You've bought " + organ);
+                boughtOrgans.add(organ);
+                switch (organ) {
+                    case "BRAIN":
+                        brain.setForeground(Color.gray);
+                        break;
+                    case "GUTS":
+                        guts.setForeground(Color.gray);
+                        break;
+                    case "HANDS":
+                        hands.setForeground(Color.gray);
+                        break;
+                    case "HEART":
+                        heart.setForeground(Color.gray);
+                        break;
+                    case "LEGS":
+                        legs.setForeground(Color.gray);
+                        break;
+                }
+            } else {
+                messageTextArea.setText("Not enough coins to buy " + organ);
             }
-        });
-        timer.setRepeats(false); // Make sure the timer only runs once
-        timer.start();
+        }
+        if(organsList.isEmpty()){
+            organsButtons.setVisible(false);
+            coinsPanel.setVisible(false);
+            messageTextArea.setVisible(false);
+            mainTextArea.setText("You WIN, you've bought \nall your available organs back".toUpperCase());
+            goBackToMainPanel.setVisible(false);
+        }
     }
 
-    public class TitleScreenHandler implements ActionListener{
+    private void sellOrgan(String organ, ArrayList<String> organsList, ArrayList<Integer> pricesList) {
+        int index = organsList.indexOf(organ);
+        if (index != -1) {
+            int price = pricesList.get(index);
+            coins += price;
+            coinsText.setText("Coins: " + coins);
+            organsList.remove(index);
+            pricesList.remove(index);
+            // Inform the user
+            messageTextArea.setText("You've sold " + organ);
+            soldOrgans.add(organ);
+            switch (organ) {
+                case "EYES":
+                    eyes.setForeground(Color.gray);
+                    break;
+                case "LUNGS":
+                    lungs.setForeground(Color.gray);
+                    break;
+                case "KIDNEY":
+                    kidney.setForeground(Color.gray);
+                    break;
+                case "TEETH":
+                    teeth.setForeground(Color.gray);
+                    break;
+                case "SKIN":
+                    skin.setForeground(Color.gray);
+                    break;
+            }
+        }
+        if(organsList.isEmpty()){
+            organsButtons.setVisible(false);
+            coinsPanel.setVisible(false);
+            messageTextArea.setVisible(false);
+            mainTextArea.setText("You've sold all \nyour available organs".toUpperCase());
+        }
+    }
+
+    public class TitleScreenHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
             storyScreen();
-        } 
+        }
     }
 
     public class ContinueButtonHandler implements ActionListener {
@@ -338,45 +493,33 @@ public class soulArray {
         }
     }
 
-    public class PlayHandler implements ActionListener{
+    public class PlayHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
             games();
-        } 
+        }
     }
 
-    public class SellHandler implements ActionListener{
-        public void actionPerformed(ActionEvent event){
-            sell();
-        } 
-    }
-
-    public class QuitHandler implements ActionListener{
-        public void actionPerformed(ActionEvent event){
-            goBackToMainPanel.setVisible(false);
-            quit();
-        } 
-    }
-
-    public class BuyHandler implements ActionListener{
+    public class BuyHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
             buy();
-        } 
+        }
     }
 
-    public class GoBackHandler implements ActionListener{
+    public class SellHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
-            mainMenu();
-        } 
+            sell();
+        }
     }
 
-    public JButton choiceButton(String text) {
-        JButton button;
-        button = new JButton();
-        button.setBackground(Color.black);
-        button.setForeground(Color.white);
-        button.setFont(normalFont);
-        button.setText(text);
-        button.setFocusPainted(false);
-        return button;
+    public class QuitHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event){
+            System.exit(0);
+        }
+    }
+
+    public class GoBackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            mainMenu();
+        }
     }
 }
