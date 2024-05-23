@@ -2,8 +2,8 @@
 - added main menu
 - added "go back to main menu" button
 - implemented quit
-- implemented play screen GUI, sell screen GUI, and buy screen GUI (no functionalities yet)
+- implemented buy and sell
   
 mga kulang:
-- implement each functionality of each game
-- implement buy and sell of organs functionality
+- implement each functionality of each game (dance with the devil, horse racing, rock paper scissors)
+
