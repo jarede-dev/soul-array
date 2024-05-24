@@ -148,6 +148,8 @@ public class soulArray {
         if (fighPassPanel != null) fighPassPanel.setVisible(false);
         if (turnPanel != null) turnPanel.setVisible(false);
 
+        if (messageTextArea != null) messageTextArea.setText("");
+
         menuPanel = new JPanel();
         menuPanel.setBounds(100, 100, 600, 150);
         menuPanel.setBackground(Color.black);
