@@ -8,12 +8,12 @@ import java.util.Arrays;
 public class soulArray {
 
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel;
-    JLabel titleTextLabel, menuTitle, coinsText;
+    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel, userHpLabel, oppHpLabel, bodyTextPanel, fighPassPanel, turnPanel;
+    JLabel titleTextLabel, menuTitle, coinsText, userHp, oppHp, turnText;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB;
-    JTextArea mainTextArea, messageTextArea;
+    JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB, fight, pass, cont;
+    JTextArea mainTextArea, messageTextArea, bodyTextArea;
 
     //organs
     JPanel organsButtons;
@@ -30,6 +30,7 @@ public class soulArray {
     QuitHandler quitHandler = new QuitHandler();
     BuyHandler buyHandler = new BuyHandler();
     GoBackHandler goBackHandler = new GoBackHandler();
+    DanceWDevilHandler dwdHandler = new DanceWDevilHandler();
 
     ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
     ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
@@ -37,6 +38,8 @@ public class soulArray {
     ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
 
     private int coins = 50000;
+    private int userHpAmount = 1000;
+    private int oppHpAmount = 1000;
     ArrayList<String> boughtOrgans = new ArrayList<>();
     ArrayList<String> soldOrgans = new ArrayList<>();
 
@@ -139,6 +142,11 @@ public class soulArray {
         if (coinsPanel != null) coinsPanel.setVisible(false);
         if (organsButtons != null) organsButtons.setVisible(false);
         if (gamesButtons != null) gamesButtons.setVisible(false);
+        if (userHpLabel != null) userHpLabel.setVisible(false);
+        if (oppHpLabel != null) oppHpLabel.setVisible(false);
+        if (bodyTextPanel != null)bodyTextPanel.setVisible(false);
+        if (fighPassPanel != null) fighPassPanel.setVisible(false);
+        if (turnPanel != null) turnPanel.setVisible(false);
 
         menuPanel = new JPanel();
         menuPanel.setBounds(100, 100, 600, 150);
@@ -192,13 +200,6 @@ public class soulArray {
         goBackToMainPanel.setVisible(false);
     }
 
-    public void choiceHandler(){
-        //detect if a certain button is clicked
-        //do the functionality of that button
-
-        /*if buy button is clicked, buy() */
-    }
-
     public void games(){
         goBackToMainPanel.setVisible(true);
         if (menuPanel != null) menuPanel.setVisible(false);
@@ -223,6 +224,7 @@ public class soulArray {
         window.add(gamesButtons);
 
         danceWdevilB = choiceButton("Dance with the Devil");
+        danceWdevilB.addActionListener(dwdHandler);
         horseRacingB = choiceButton("Horse Racing");
         rockPaperScissorsB = choiceButton("Rock Paper Scissors");
 
@@ -232,6 +234,90 @@ public class soulArray {
 
         window.add(coinsPanel);
 
+    }
+
+    public void danceWdevil(){
+        if (gamesButtons != null) gamesButtons.setVisible(false);
+        if (menuButton != null) menuButton.setVisible(false);
+        if (mainTextPanel != null) mainTextPanel.setVisible(false);
+        coinsPanel.setBounds(270, 80, 200, 50);
+
+        userHpLabel = new JPanel();
+        userHpLabel.setBounds(10, 120, 200, 50);
+        userHpLabel.setBackground(Color.red);
+
+        userHp = new JLabel("HP: " + userHpAmount);
+        userHp.setForeground(Color.white);
+        userHp.setFont(normalFont);
+
+        userHpLabel.add(userHp);
+        window.add(userHpLabel);
+
+        oppHpLabel = new JPanel();
+        oppHpLabel.setBounds(550, 120, 200, 50);
+        oppHpLabel.setBackground(Color.blue);
+
+        oppHp = new JLabel("Devil's HP: " + oppHpAmount);
+        oppHp.setForeground(Color.red);
+        oppHp.setFont(normalFont);
+
+        oppHpLabel.add(oppHp);
+        window.add(oppHpLabel);
+
+        turnPanel = new JPanel();
+        turnPanel.setBounds(280, 170, 200, 50);
+        turnPanel.setBackground(Color.blue);
+
+        String userTurn = "Your turn";
+        String devilTurn = "Opponent's turn";
+
+        turnText = new JLabel(userTurn);
+        turnText.setForeground(Color.red);
+        turnText.setFont(normalFont);
+
+        turnPanel.add(turnText);
+        window.add(turnPanel);
+
+        bodyTextPanel = new JPanel();
+        bodyTextPanel.setBounds(40, 250, 700, 150);
+        bodyTextPanel.setBackground(Color.red);
+        bodyTextPanel.setLayout(new BorderLayout());
+        window.add(bodyTextPanel);
+
+        bodyTextArea = new JTextArea("You inflicted bla bnla bla\nYou inflicted bla bnla bla\nYou inflicted bla bnla bla\nYou inflicted bla bnla bla");
+        bodyTextArea.setBackground(Color.green);
+        bodyTextArea.setForeground(Color.white);
+        bodyTextArea.setFont(normalFont);
+        bodyTextArea.setLineWrap(true);
+        bodyTextPanel.add(bodyTextArea, BorderLayout.NORTH);
+        
+        fighPassPanel = new JPanel();
+        fighPassPanel.setBounds(150, 450, 500, 50);
+        fighPassPanel.setBackground(Color.pink);
+        fighPassPanel.setLayout(new GridLayout(1, 3));
+
+        JButton fight = new JButton("FIGHT");
+        fight.setBackground(Color.green);
+        fight.setForeground(Color.white);
+        fight.setFont(normalFont);
+        fight.setFocusPainted(false);
+
+        JButton pass = new JButton("Pass");
+        pass.setBackground(Color.red);
+        pass.setForeground(Color.white);
+        pass.setFont(normalFont);
+        pass.setFocusPainted(false);
+
+        JButton cont = new JButton(">");
+        cont.setBackground(Color.orange);
+        cont.setForeground(Color.white);
+        cont.setFont(normalFont);
+        cont.setFocusPainted(false);
+
+        fighPassPanel.add(fight);
+        fighPassPanel.add(cont);
+        fighPassPanel.add(pass);
+        window.add(fighPassPanel);
     }
 
     public JButton choiceButton(String text) {
@@ -520,6 +606,12 @@ public class soulArray {
     public class GoBackHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             mainMenu();
+        }
+    }
+
+    public class DanceWDevilHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            danceWdevil();
         }
     }
 }
