@@ -1,4 +1,3 @@
-package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -15,12 +14,20 @@ public class soulArray {
     JLabel titleTextLabel, menuTitle, coinsText, userHp, oppHp, turnText;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
+    Font subFont = new Font("Times New Roman", Font.PLAIN, 60);
     JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB, fight, pass, cont;
     JTextArea mainTextArea, messageTextArea, bodyTextArea;
 
     //organs
     JPanel organsButtons;
     JButton brain, guts, hands, heart, legs, eyes, lungs, kidney, teeth, skin;
+
+    // horses
+    JPanel horses;
+    JButton cerberus, persephone, hades, voskopoulos, tom;
+    // horse racing panels
+    JLabel hrTitle, hrSubtitle, hrEnterBet;
+    JPanel hrTitlePanel, hrSubPanel, hrBetPanel;
 
     //games
     JPanel gamesButtons;
@@ -34,6 +41,7 @@ public class soulArray {
     BuyHandler buyHandler = new BuyHandler();
     GoBackHandler goBackHandler = new GoBackHandler();
     DanceWDevilHandler dwdHandler = new DanceWDevilHandler();
+    HorseRacingHandler hrHandler = new HorseRacingHandler();
 
     ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
     ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
@@ -158,6 +166,11 @@ public class soulArray {
         if (bodyTextPanel != null)bodyTextPanel.setVisible(false);
         if (fighPassPanel != null) fighPassPanel.setVisible(false);
         if (turnPanel != null) turnPanel.setVisible(false);
+        if(horses != null) horses.setVisible(false);
+        if(hrTitlePanel != null) hrTitlePanel.setVisible(false);
+        if(hrSubPanel != null) hrSubPanel.setVisible(false);
+        if(hrBetPanel != null) hrBetPanel.setVisible(false);
+        //hrTitlePanel, hrSubPanel, hrBetPanel;
 
         if (messageTextArea != null) messageTextArea.setText("");
 
@@ -239,6 +252,7 @@ public class soulArray {
         danceWdevilB = choiceButton("Dance with the Devil");
         danceWdevilB.addActionListener(dwdHandler);
         horseRacingB = choiceButton("Horse Racing");
+        horseRacingB.addActionListener(hrHandler);
         rockPaperScissorsB = choiceButton("Rock Paper Scissors");
 
         gamesButtons.add(danceWdevilB);
@@ -517,6 +531,102 @@ private void resetGame() {
     if (fighPassPanel != null) fighPassPanel.setVisible(false);
     menuButton.setVisible(true);
     // Reset any other necessary game state here
+}
+
+public void horseRacing(){
+    if (gamesButtons != null) gamesButtons.setVisible(false);
+    if (menuButton != null) menuButton.setVisible(false);
+    if (mainTextPanel != null) mainTextPanel.setVisible(false);
+    coinsPanel.setBounds(300, 80, 200, 50);
+
+    hrTitlePanel = new JPanel();
+    hrTitlePanel.setBounds(150, 150, 500, 75);
+    hrTitlePanel.setBackground(Color.black);
+
+    hrTitle = new JLabel("Horse Racing");
+    hrTitle.setForeground(Color.red);
+    hrTitle.setFont(subFont);
+
+    hrTitlePanel.add(hrTitle);
+    window.add(hrTitlePanel);
+
+    hrSubPanel = new JPanel();
+    hrSubPanel.setBounds(150, 240, 500, 80);
+    hrSubPanel.setBackground(Color.black);
+
+    hrSubtitle = new JLabel("Pick your horse");
+    hrSubtitle.setForeground(Color.white);
+    hrSubtitle.setFont(normalFont);
+
+    hrSubPanel.add(hrSubtitle);
+    window.add(hrSubPanel);
+
+    horses = new JPanel();
+    horses.setBounds(250, 350, 300, 150);
+    horses.setBackground(Color.black);
+    horses.setLayout(new GridLayout(5, 1));
+    window.add(horses); 
+
+    final String[] selectedHorse = {""};
+
+    cerberus = choiceButton("Cerberus");
+    persephone = choiceButton("Persephone");
+    hades = choiceButton("Hades");
+    voskopoulos = choiceButton("Voskopoulos");
+    tom = choiceButton("Tom");
+
+    cerberus.addActionListener(e -> {
+        selectedHorse[0] = "Cerberus";
+        horses.setVisible(false);
+        hrSubPanel.setVisible(false);
+    });
+    
+    persephone.addActionListener(e -> {
+        selectedHorse[0] = "Persephone";
+        horses.setVisible(false);
+        hrSubPanel.setVisible(false);
+    });
+    
+    hades.addActionListener(e -> {
+        selectedHorse[0] = "Hades";
+        horses.setVisible(false);
+        hrSubPanel.setVisible(false);
+    });
+    
+    voskopoulos.addActionListener(e -> {
+        selectedHorse[0] = "Voskopoulos";
+        horses.setVisible(false);
+        hrSubPanel.setVisible(false);
+    });
+    
+    tom.addActionListener(e -> {
+        selectedHorse[0] = "Tom";
+        horses.setVisible(false);
+        hrSubPanel.setVisible(false);
+    });
+
+    horses.add(cerberus);
+    horses.add(persephone);
+    horses.add(hades);
+    horses.add(voskopoulos);
+    horses.add(tom);
+
+    hrBetPanel = new JPanel();
+    hrBetPanel.setBounds(150, 240, 500, 80);
+    hrBetPanel.setBackground(Color.black);
+
+    hrEnterBet = new JLabel("Enter amount to bet.");
+    hrEnterBet.setForeground(Color.white);
+    hrEnterBet.setFont(normalFont);
+
+    hrBetPanel.add(hrEnterBet);
+    window.add(hrBetPanel);
+
+
+    // add a text field here that only accepts integers. there is also a button underneath it entitled "ENTER". if the user inputs an int, and clicks ENTER, it will be stored in a variable. 
+    // else, if the field is blank or the input isn't an integer or the input equals 0, display an error message and wait until the user inputs a valid input again.
+
+
 }
 
     public JButton choiceButton(String text) {
@@ -811,6 +921,12 @@ private void resetGame() {
     public class DanceWDevilHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             danceWdevil();
+        }
+    }
+
+    public class HorseRacingHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            horseRacing();
         }
     }
 }
