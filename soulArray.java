@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class soulArray {
 
@@ -37,9 +40,17 @@ public class soulArray {
     ArrayList<Integer> mainArrayPrice = new ArrayList<>(Arrays.asList(2000, 1800, 1500, 3500, 2300));
     ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
 
-    private int coins = 50000;
+    //dance with the dimonyo variables
+    private int coins = 10000;
+    private boolean playerTurn = true;
+    private boolean willContinue = true;
+    private boolean hasChosen = false;
+    private int userDmg = 100;
+    private int comDmg = 50;
     private int userHpAmount = 1000;
     private int oppHpAmount = 1000;
+    private Random random = new Random();
+
     ArrayList<String> boughtOrgans = new ArrayList<>();
     ArrayList<String> soldOrgans = new ArrayList<>();
 
@@ -239,14 +250,27 @@ public class soulArray {
     }
 
     public void danceWdevil(){
+        playerTurn = true;
+        willContinue = true;
+        hasChosen = false;
+        userDmg = 100;
+        comDmg = 50;
+        userHpAmount = 1000;
+        oppHpAmount = 1000;
         if (gamesButtons != null) gamesButtons.setVisible(false);
         if (menuButton != null) menuButton.setVisible(false);
         if (mainTextPanel != null) mainTextPanel.setVisible(false);
+        if(coins < 2000){
+            mainTextPanel.setVisible(true);
+            mainTextArea.setText("Not enough coins.\nYou need 2000 coins \nto play this.");
+        } else{
+         String act = "";
+
         coinsPanel.setBounds(270, 80, 200, 50);
 
         userHpLabel = new JPanel();
         userHpLabel.setBounds(10, 120, 200, 50);
-        userHpLabel.setBackground(Color.red);
+        userHpLabel.setBackground(Color.green);
 
         userHp = new JLabel("HP: " + userHpAmount);
         userHp.setForeground(Color.white);
@@ -257,10 +281,10 @@ public class soulArray {
 
         oppHpLabel = new JPanel();
         oppHpLabel.setBounds(550, 120, 200, 50);
-        oppHpLabel.setBackground(Color.blue);
+        oppHpLabel.setBackground(Color.red);
 
         oppHp = new JLabel("Devil's HP: " + oppHpAmount);
-        oppHp.setForeground(Color.red);
+        oppHp.setForeground(Color.white);
         oppHp.setFont(normalFont);
 
         oppHpLabel.add(oppHp);
@@ -268,7 +292,7 @@ public class soulArray {
 
         turnPanel = new JPanel();
         turnPanel.setBounds(280, 170, 200, 50);
-        turnPanel.setBackground(Color.blue);
+        turnPanel.setBackground(Color.black);
 
         String userTurn = "Your turn";
         String devilTurn = "Opponent's turn";
@@ -282,12 +306,12 @@ public class soulArray {
 
         bodyTextPanel = new JPanel();
         bodyTextPanel.setBounds(40, 250, 700, 150);
-        bodyTextPanel.setBackground(Color.red);
+        bodyTextPanel.setBackground(Color.black);
         bodyTextPanel.setLayout(new BorderLayout());
         window.add(bodyTextPanel);
 
         bodyTextArea = new JTextArea("You inflicted bla bnla bla\nYou inflicted bla bnla bla\nYou inflicted bla bnla bla\nYou inflicted bla bnla bla");
-        bodyTextArea.setBackground(Color.green);
+        bodyTextArea.setBackground(Color.black);
         bodyTextArea.setForeground(Color.white);
         bodyTextArea.setFont(normalFont);
         bodyTextArea.setLineWrap(true);
@@ -320,7 +344,180 @@ public class soulArray {
         fighPassPanel.add(cont);
         fighPassPanel.add(pass);
         window.add(fighPassPanel);
+
+        updateTurnUI(playerTurn);
+        fight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(hasChosen == false){
+                // Code to execute when button1 is clicked
+                oppHpAmount -= userDmg;
+                oppHp.setText("Devil's HP: " + oppHpAmount);
+                turnText.setText(userTurn);
+                bodyTextArea.setText("You attacked the opponent, he took " + userDmg + " damage!");
+                hasChosen = true;
+           
+                        if(userHpAmount <= 0){
+                            userHpAmount = 0;
+                            userHp.setText("Your HP: " + userHpAmount);
+                            showLoseScreen();
+                        } else if(oppHpAmount <= 0){
+                            oppHpAmount = 0;
+                            oppHp.setText("Devil's HP: " + oppHpAmount);
+                            showWinScreen();
+                        }
+          
+                }
+            }
+        });
+        
+        
+        cont.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(hasChosen == true){
+                System.out.println("continue clicked");
+                hasChosen = false;
+                playerTurn = false;
+                updateTurnUI(playerTurn);
+                } else if(hasChosen == false){
+                    playerTurn = true;
+                    turnText.setText("Your Turn");
+                    updateTurnUI(playerTurn);
+                }
+            }
+        });
+        
+
+        // Add ActionListener to button2
+        
+        pass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(hasChosen == false){
+                turnText.setText(userTurn);
+                hasChosen = true;
+                int chance = random.nextInt(5);
+                if(chance == 0){
+                    userDmg += 150;
+                    
+                    bodyTextArea.setText("[GOOD EVENT]\nYou got lucky! +150 dmg");
+                } else if(chance == 1){
+                    comDmg += 100;
+                    
+                    bodyTextArea.setText("[BAD EVENT]\nYou unlucky son of a gun, you just increased your opponents basic attack damage.\nComputer's basic attack damage: +100");
+                } else if(chance == 2){
+                    oppHpAmount -= 200;
+                    
+                    bodyTextArea.setText("[GOOD EVENT]\nInstant 200 damage inflicted on enemy");
+                    oppHp.setText("Devil's HP: " + (oppHpAmount));
+                } else if(chance == 3){
+                    userHpAmount -= 150;
+                    bodyTextArea.setText("[BAD EVENT]\nYour enemy instant inflicted 150 damage on you");
+                    userHp.setText("Your HP: " + (userHpAmount));
+                } else if(chance == 4){
+                    oppHpAmount -= 500;
+                    
+                    bodyTextArea.setText("[GOOD EVENT]\nYou used your ULTIMATE SKILL\nSPECIAL SLASHH!!!!\nYou slashed the living heck out of the devil");
+                    oppHp.setText("Devil's HP: " + (oppHpAmount));
+                }
+        
+                        if(userHpAmount <= 0){
+                            userHpAmount = 0;
+                            userHp.setText("Your HP: " + userHpAmount);
+                            showLoseScreen();
+                        } else if(oppHpAmount <= 0){
+                            oppHpAmount = 0;
+                            oppHp.setText("Devil's HP: " + oppHpAmount);
+                            showWinScreen();
+                        }
+            
+                }
+            }
+        });
+        
+        }
     }
+
+    private void updateTurnUI(boolean turn) {
+        if (turn) {
+            bodyTextArea.setText("What's your choice?\nFIGHT - Damage dealing\nPASS - Skip turn (Good Event Chance 50% || Bad Event Chance: 50%)");
+        } else {
+            int rng = random.nextInt(9);
+            turnText.setText("Devil's Turn");
+            if(rng == 0 || rng == 1 || rng == 2 || rng == 3){
+                userHpAmount -= comDmg;
+                bodyTextArea.setText("Computer used basic attack. -" + comDmg + "hp");
+                userHp.setText("Your HP: " + (userHpAmount));
+                rng = random.nextInt(9);
+            } else if(rng == 4 || rng == 5 || rng == 6 || rng == 7){
+                userHpAmount -= 150;
+                bodyTextArea.setText("Computer used fireball. -150hp");
+                userHp.setText("Your HP: " + (userHpAmount));
+                rng = random.nextInt(9);
+            
+            } else if(rng == 8){
+                userHpAmount -= 400;
+                bodyTextArea.setText("Computer used his [ULTIMATE SKILL]\n[BLACK HOLE EXPLOSION]\nA black hole consumed you\n-400HP");
+                rng = random.nextInt(9);
+                userHp.setText("Your HP: " + (userHpAmount));
+            }
+   
+                    
+                    if(userHpAmount <= 0){
+                        userHpAmount = 0;
+                        userHp.setText("Your HP: " + userHpAmount);
+                        showLoseScreen();
+                    } else if(oppHpAmount <= 0){
+                        oppHpAmount = 0;
+                        oppHp.setText("Devil's HP: " + oppHpAmount);
+                        showWinScreen();
+                    }
+        
+            hasChosen = false;
+
+        }
+    }
+
+    private void showWinScreen() {
+            bodyTextArea.setText("You Win! +2000 coins");
+            coins += 2000;
+    new Timer(6000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            mainMenu();
+            resetGame();
+        }
+    }).start();
+}
+
+private void showLoseScreen() {
+        bodyTextArea.setText("You Lose! -2000 coins");
+        coins += 2000;
+    new Timer(6000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainMenu();
+            resetGame();
+        }
+    }).start();
+}
+
+private void resetGame() {
+    // Hide all panels used in danceWdevil
+    if (gamesButtons != null) gamesButtons.setVisible(false);
+    if (menuButton != null) menuButton.setVisible(false);
+    if (mainTextPanel != null) mainTextPanel.setVisible(false);
+    if (coinsPanel != null) coinsPanel.setVisible(false);
+    if (userHpLabel != null) userHpLabel.setVisible(false);
+    if (oppHpLabel != null) oppHpLabel.setVisible(false);
+    if (turnPanel != null) turnPanel.setVisible(false);
+    if (bodyTextPanel != null) bodyTextPanel.setVisible(false);
+    if (fighPassPanel != null) fighPassPanel.setVisible(false);
+    menuButton.setVisible(true);
+    // Reset any other necessary game state here
+}
 
     public JButton choiceButton(String text) {
         JButton button = new JButton(text);
