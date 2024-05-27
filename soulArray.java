@@ -29,6 +29,11 @@ public class soulArray {
     JLabel hrTitle, hrSubtitle, hrEnterBet;
     JPanel hrTitlePanel, hrSubPanel, hrBetPanel;
 
+    // rps panels
+    JLabel choice;
+
+    // rps elements
+    JButton fire, water, earth;
     //games
     JPanel gamesButtons;
     JButton danceWdevilB, horseRacingB, rockPaperScissorsB;
@@ -42,6 +47,7 @@ public class soulArray {
     GoBackHandler goBackHandler = new GoBackHandler();
     DanceWDevilHandler dwdHandler = new DanceWDevilHandler();
     HorseRacingHandler hrHandler = new HorseRacingHandler();
+    ElementalHandler eHandler = new ElementalHandler();
 
     ArrayList<String> mainArray = new ArrayList<>(Arrays.asList("BRAIN", "GUTS", "HANDS", "HEART", "LEGS"));
     ArrayList<String> sellArray = new ArrayList<>(Arrays.asList("EYES", "LUNGS", "KIDNEY", "TEETH", "SKIN"));
@@ -172,7 +178,7 @@ public class soulArray {
         if(hrTitlePanel != null) hrTitlePanel.setVisible(false);
         if(hrSubPanel != null) hrSubPanel.setVisible(false);
         if(hrBetPanel != null) hrBetPanel.setVisible(false);
-        //hrTitlePanel, hrSubPanel, hrBetPanel;
+        if(choice != null) choice.setVisible(false);
 
         if (messageTextArea != null) messageTextArea.setText("");
 
@@ -255,8 +261,8 @@ public class soulArray {
         danceWdevilB.addActionListener(dwdHandler);
         horseRacingB = choiceButton("Horse Racing");
         horseRacingB.addActionListener(hrHandler);
-        rockPaperScissorsB = choiceButton("Rock Paper Scissors");
-
+        rockPaperScissorsB = choiceButton("Elemental Exchange");
+        rockPaperScissorsB.addActionListener(eHandler);
         gamesButtons.add(danceWdevilB);
         gamesButtons.add(horseRacingB);
         gamesButtons.add(rockPaperScissorsB);
@@ -642,6 +648,75 @@ public void horseRacing(){
 
 }
 
+public void Elemental() {
+    if (gamesButtons != null)
+        gamesButtons.setVisible(false);
+    if (menuButton != null)
+        menuButton.setVisible(false);
+    if (mainTextPanel != null)
+        mainTextPanel.setVisible(false);
+    coinsPanel.setBounds(300, 80, 200, 50);
+
+    choice = new JLabel();
+    choice.setBounds(150, 350, 500, 100);
+    choice.setBackground(Color.black);
+    choice.setLayout(new GridLayout(1, 3));
+    window.add(choice);
+
+    fire = choiceButton("Fire");
+    water = choiceButton("Water");
+    earth = choiceButton("Earth");
+
+    choice.add(fire);
+    choice.add(water);
+    choice.add(earth);
+
+    fire.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playGame("Fire");
+        }
+    });
+
+    water.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playGame("Water");
+        }
+    });
+
+    earth.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playGame("Earth");
+        }
+    });
+}
+
+private void playGame(String userChoice) {
+    String[] choices = { "Fire", "Water", "Earth" };
+    Random random = new Random();
+    String computerChoice = choices[random.nextInt(choices.length)];
+
+    String result;
+    if (userChoice.equals(computerChoice)) {
+        result = "It's a draw!";
+    } else if ((userChoice.equals("Fire") && computerChoice.equals("Earth")) ||
+            (userChoice.equals("Water") && computerChoice.equals("Fire")) ||
+            (userChoice.equals("Earth") && computerChoice.equals("Water"))) {
+        result = "you win! +50!";
+        coins += 50;
+        coinsText.setText("Coins: " + coins);
+    } else {
+        result = "You lose! -50";
+        coins -= 50;
+        coinsText.setText("Coins: " + coins);
+    }
+
+    JOptionPane.showMessageDialog(window,
+            "You chose " + userChoice + "\nComputer chose " + computerChoice + "\n" + result);
+}
+
     public JButton choiceButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(Color.black);
@@ -940,6 +1015,12 @@ public void horseRacing(){
     public class HorseRacingHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             horseRacing();
+        }
+    }
+
+    public class ElementalHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            Elemental();
         }
     }
 }
