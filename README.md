@@ -16,11 +16,11 @@ A gambling simulation game, made using Java.
 
 ## Screenshots
 
-![SA1.png](SA1.png)
-![SA2.png](SA2.png)
-![SA3.png](SA3.png)
-![SA4.png](SA4.png)
-![SA5.png](SA5.png)
+![SA1.png](screenshots/SA1.png)
+![SA2.png](screenshots/SA2.png)
+![SA3.png](screenshots/SA3.png)
+![SA4.png](screenshots/SA4.png)
+![SA5.png](screenshots/SA5.png)
 
 
 ## Feedback
