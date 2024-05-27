@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
 public class soulArray {
 
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel, userHpLabel, oppHpLabel, bodyTextPanel, fighPassPanel, turnPanel;
+    JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel, userHpLabel, oppHpLabel, bodyTextPanel, fighPassPanel, turnPanel, elementalPanel;
     JLabel titleTextLabel, menuTitle, coinsText, userHp, oppHp, turnText;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     Font subFont = new Font("Times New Roman", Font.PLAIN, 60);
     JButton startButton, storyButton, buy, sell, play, quit, goBackToMainB, fight, pass, cont;
-    JTextArea mainTextArea, messageTextArea, bodyTextArea;
+    JTextArea mainTextArea, messageTextArea, bodyTextArea, elementalArea;
 
     //organs
     JPanel organsButtons;
@@ -179,6 +179,7 @@ public class soulArray {
         if(hrSubPanel != null) hrSubPanel.setVisible(false);
         if(hrBetPanel != null) hrBetPanel.setVisible(false);
         if(choice != null) choice.setVisible(false);
+        if(elementalPanel != null) elementalPanel.setVisible(false);
 
         if (messageTextArea != null) messageTextArea.setText("");
 
@@ -649,6 +650,15 @@ public void horseRacing(){
 }
 
 public void Elemental() {
+    elementalPanel = new JPanel();
+        elementalPanel.setBounds(150, 150, 500, 150);
+        elementalPanel.setBackground(Color.white);
+        elementalArea = new JTextArea("");
+        elementalArea.setForeground(Color.black);
+        elementalArea.setFont(normalFont);
+        
+        elementalPanel.add(elementalArea);
+        window.add(elementalPanel);
     if (gamesButtons != null)
         gamesButtons.setVisible(false);
     if (menuButton != null)
@@ -668,8 +678,11 @@ public void Elemental() {
     earth = choiceButton("Earth");
 
     choice.add(fire);
+    fire.setBackground(Color.red);
     choice.add(water);
+    water.setBackground(Color.blue);
     choice.add(earth);
+    earth.setBackground(Color.gray);
 
     fire.addActionListener(new ActionListener() {
         @Override
@@ -713,8 +726,7 @@ private void playGame(String userChoice) {
         coinsText.setText("Coins: " + coins);
     }
 
-    JOptionPane.showMessageDialog(window,
-            "You chose " + userChoice + "\nComputer chose " + computerChoice + "\n" + result);
+    elementalArea.setText("You chose " + userChoice + "\nComputer chose " + computerChoice + "\n" + result);
 }
 
     public JButton choiceButton(String text) {
