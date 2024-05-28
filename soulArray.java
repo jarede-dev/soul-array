@@ -25,16 +25,17 @@ public class soulArray {
     // horses
     JPanel horses;
     JButton cerberus, persephone, hades, voskopoulos, tom;
+    final String[] selectedHorse = {""};
     // horse racing panels
-    JLabel hrTitle, hrSubtitle, hrEnterBet;
-    JPanel hrTitlePanel, hrSubPanel, hrBetPanel;
-
-    // rps panels
-    JLabel choice;
+    JLabel hrTitle, hrSubtitle, hrEnterBet, hrInputLabel, winnerLabel, theWinnerIsLabel;
+    JPanel hrTitlePanel, hrSubPanel, hrBetPanel, hrInputPanel, horsePodiumPanel, otherHorsesPanel, theWinnerIsPanel;
+    JTextField hrInputField;
+    JButton hrInputButton;
 
     // rps elements
     JButton fire, water, earth;
     //games
+    JLabel choice;
     JPanel gamesButtons;
     JButton danceWdevilB, horseRacingB, rockPaperScissorsB;
 
@@ -174,10 +175,13 @@ public class soulArray {
         if (bodyTextPanel != null)bodyTextPanel.setVisible(false);
         if (fighPassPanel != null) fighPassPanel.setVisible(false);
         if (turnPanel != null) turnPanel.setVisible(false);
-        if(horses != null) horses.setVisible(false);
-        if(hrTitlePanel != null) hrTitlePanel.setVisible(false);
-        if(hrSubPanel != null) hrSubPanel.setVisible(false);
-        if(hrBetPanel != null) hrBetPanel.setVisible(false);
+        if (hrTitlePanel != null) hrTitlePanel.setVisible(false);
+        if (hrSubPanel != null) hrSubPanel.setVisible(false);
+        if (hrBetPanel != null) hrBetPanel.setVisible(false);
+        if (horses != null) horses.setVisible(false);
+        if (hrInputPanel != null) hrInputPanel.setVisible(false);
+        if (horsePodiumPanel != null) horsePodiumPanel.setVisible(false);
+        if (otherHorsesPanel != null) otherHorsesPanel.setVisible(false);
         if(choice != null) choice.setVisible(false);
         if(elementalPanel != null) elementalPanel.setVisible(false);
 
@@ -523,6 +527,13 @@ private void resetGame() {
     if (turnPanel != null) turnPanel.setVisible(false);
     if (bodyTextPanel != null) bodyTextPanel.setVisible(false);
     if (fighPassPanel != null) fighPassPanel.setVisible(false);
+    if (hrTitlePanel != null) hrTitlePanel.setVisible(false);
+    if (hrSubPanel != null) hrSubPanel.setVisible(false);
+    if (hrBetPanel != null) hrBetPanel.setVisible(false);
+    if (horses != null) horses.setVisible(false);
+    if (hrInputPanel != null) hrInputPanel.setVisible(false);
+    if (horsePodiumPanel != null) horsePodiumPanel.setVisible(false);
+    if (otherHorsesPanel != null) otherHorsesPanel.setVisible(false);
     menuButton.setVisible(true);
     // Reset any other necessary game state here
 }
@@ -587,43 +598,60 @@ public void horseRacing(){
     horses.setLayout(new GridLayout(5, 1));
     window.add(horses); 
 
-    final String[] selectedHorse = {""};
-
     cerberus = choiceButton("Cerberus");
     persephone = choiceButton("Persephone");
     hades = choiceButton("Hades");
     voskopoulos = choiceButton("Voskopoulos");
     tom = choiceButton("Tom");
 
-    cerberus.addActionListener(e -> {
-        selectedHorse[0] = "Cerberus";
+    hrInputPanel = new JPanel();
+
+    hrInputField = new JTextField(10);
+
+    int[] betAmount = new int[1];
+
+    ActionListener placeButtonAction = e -> {
+        try {
+            betAmount[0] = Integer.parseInt(hrInputField.getText());
+            if (betAmount[0] > coins) {
+                JOptionPane.showMessageDialog(window, "Amount to bet cannot be more than the coins you currently have.");
+            } else if (betAmount[0] > 0) {
+                coins = coins + betAmount[0];
+                coinsText.setText("Coins: " + coins);
+                showWinner();
+            } else {
+                JOptionPane.showMessageDialog(window, "Please enter a positive integer amount.");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(window, "Please enter a valid integer amount.");
+        }
+    };
+
+    ActionListener horseSelectionAction = e -> {
+        JButton selectedButton = (JButton) e.getSource();
+        String horseName = selectedButton.getText();
+        selectedHorse[0] = horseName;
+        
         horses.setVisible(false);
         hrSubPanel.setVisible(false);
-    });
-    
-    persephone.addActionListener(e -> {
-        selectedHorse[0] = "Persephone";
-        horses.setVisible(false);
-        hrSubPanel.setVisible(false);
-    });
-    
-    hades.addActionListener(e -> {
-        selectedHorse[0] = "Hades";
-        horses.setVisible(false);
-        hrSubPanel.setVisible(false);
-    });
-    
-    voskopoulos.addActionListener(e -> {
-        selectedHorse[0] = "Voskopoulos";
-        horses.setVisible(false);
-        hrSubPanel.setVisible(false);
-    });
-    
-    tom.addActionListener(e -> {
-        selectedHorse[0] = "Tom";
-        horses.setVisible(false);
-        hrSubPanel.setVisible(false);
-    });
+        
+        hrInputPanel.setBounds(150, 340, 500, 80);
+        hrInputPanel.setBackground(Color.black);
+        hrInputField.setFont(normalFont);
+        hrInputButton = new JButton("Place Bet");
+        hrInputButton.setFont(normalFont);
+        hrInputPanel.add(hrInputField);
+        hrInputPanel.add(hrInputButton);
+        window.add(hrInputPanel);
+
+        hrInputButton.addActionListener(placeButtonAction);
+    };
+
+    cerberus.addActionListener(horseSelectionAction);
+    persephone.addActionListener(horseSelectionAction);
+    hades.addActionListener(horseSelectionAction);
+    voskopoulos.addActionListener(horseSelectionAction);
+    tom.addActionListener(horseSelectionAction);
 
     horses.add(cerberus);
     horses.add(persephone);
@@ -640,12 +668,80 @@ public void horseRacing(){
     hrEnterBet.setFont(normalFont);
 
     hrBetPanel.add(hrEnterBet);
-    window.add(hrBetPanel);
+    window.add(hrBetPanel); 
+}
 
+private void startTheRace(){
+    String[] horseList = {"CERBERUS", "PERSEPHONE", "HADES", "VOSKOPOULOS", "TOM"};
+}
 
-    // add a text field here that only accepts integers. there is also a button underneath it entitled "ENTER". if the user inputs an int, and clicks ENTER, it will be stored in a variable. 
-    // else, if the field is blank or the input isn't an integer or the input equals 0, display an error message and wait until the user inputs a valid input again.
+private void showWinner() {
+    hrTitlePanel.setVisible(false);
+    hrSubPanel.setVisible(false);
+    horses.setVisible(false);
+    hrInputPanel.setVisible(false);
+    hrBetPanel.setVisible(false);
+    coinsPanel.setVisible(false);
 
+    Random rand = new Random();
+    String[] horseList = {"CERBERUS", "PERSEPHONE", "HADES", "VOSKOPOULOS", "TOM"};
+    int winningIndex = rand.nextInt(horseList.length);
+    String winningHorse = horseList[winningIndex];
+
+    horsePodiumPanel = new JPanel();
+    horsePodiumPanel.setBounds(100, 200, 600, 110);
+    horsePodiumPanel.setBackground(Color.RED);
+    
+    winnerLabel = new JLabel(winningHorse);
+    winnerLabel.setHorizontalAlignment(JLabel.CENTER);
+    winnerLabel.setVerticalAlignment(JLabel.CENTER);
+    winnerLabel.setForeground(Color.WHITE);
+    winnerLabel.setFont(subFont);
+
+    horsePodiumPanel.add(winnerLabel);
+
+    theWinnerIsPanel = new JPanel();
+    theWinnerIsPanel.setBounds(100, 300, 200, 70);
+    theWinnerIsPanel.setBackground(Color.RED);
+
+    theWinnerIsLabel = new JLabel("Winner");
+    theWinnerIsLabel.setHorizontalAlignment(JLabel.CENTER);
+    theWinnerIsLabel.setVerticalAlignment(JLabel.CENTER);
+    theWinnerIsLabel.setForeground(Color.WHITE);
+    theWinnerIsLabel.setFont(normalFont);
+    
+    theWinnerIsPanel.add(theWinnerIsLabel);
+
+    otherHorsesPanel = new JPanel();
+    otherHorsesPanel.setBounds(100, 300, 600, 110);
+    otherHorsesPanel.setBackground(Color.RED);
+    otherHorsesPanel.setLayout(new GridLayout(4, 1, 8, 10)); 
+
+    String[] remainingHorses = new String[horseList.length - 1];
+    int j = 0;
+    for (int i = 0; i < horseList.length; i++) {
+        if (i != winningIndex) {
+            remainingHorses[j++] = horseList[i];
+        }
+    }
+
+    for (int i = 0; i < remainingHorses.length; i++) {
+        int randomIndex = rand.nextInt(remainingHorses.length - i);
+        String temp = remainingHorses[randomIndex];
+        remainingHorses[randomIndex] = remainingHorses[i];
+        remainingHorses[i] = temp;
+    }
+
+    for (String horse : remainingHorses) {
+        JLabel otherHorseLabel = new JLabel(horse);
+        otherHorseLabel.setHorizontalAlignment(JLabel.CENTER);
+        otherHorseLabel.setForeground(Color.WHITE);
+        otherHorseLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        otherHorsesPanel.add(otherHorseLabel);
+    }
+
+    window.add(otherHorsesPanel);
+    window.add(horsePodiumPanel);
 
 }
 
