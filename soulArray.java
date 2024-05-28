@@ -1,6 +1,8 @@
+package GUI;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -58,7 +60,6 @@ public class soulArray {
     //dance with the dimonyo variables
     private int coins = 10000;
     private boolean playerTurn = true;
-    private boolean willContinue = true;
     private boolean hasChosen = false;
     private int userDmg = 100;
     private int comDmg = 50;
@@ -278,7 +279,6 @@ public class soulArray {
 
     public void danceWdevil(){
         playerTurn = true;
-        willContinue = true;
         hasChosen = false;
         userDmg = 100;
         comDmg = 50;
@@ -291,7 +291,6 @@ public class soulArray {
             mainTextPanel.setVisible(true);
             mainTextArea.setText("Not enough coins.\nYou need 2000 coins \nto play this.");
         } else{
-         String act = "";
 
         coinsPanel.setBounds(270, 80, 200, 50);
 
@@ -322,7 +321,6 @@ public class soulArray {
         turnPanel.setBackground(Color.black);
 
         String userTurn = "Your turn";
-        String devilTurn = "Opponent's turn";
 
         turnText = new JLabel(userTurn);
         turnText.setForeground(Color.red);
@@ -355,11 +353,26 @@ public class soulArray {
         fight.setFont(normalFont);
         fight.setFocusPainted(false);
 
+        try {
+            Image img = ImageIO.read(getClass().getResource("img/punch.png"));
+            fight.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
+
         JButton pass = new JButton("Pass");
         pass.setBackground(Color.red);
         pass.setForeground(Color.white);
         pass.setFont(normalFont);
         pass.setFocusPainted(false);
+
+        try {
+            Image img = ImageIO.read(getClass().getResource("img/passPic.png"));
+            pass.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
         JButton cont = new JButton(">");
         cont.setBackground(Color.orange);
