@@ -815,10 +815,28 @@ public void Elemental() {
 
     choice.add(fire);
     fire.setBackground(Color.red);
+    try {
+        Image img = ImageIO.read(getClass().getResource("img/fire.png"));
+        fire.setIcon(new ImageIcon(img));
+    } catch (Exception ex) {
+        System.out.println(ex);
+    }
     choice.add(water);
     water.setBackground(Color.blue);
+    try {
+        Image img = ImageIO.read(getClass().getResource("img/water.png"));
+        water.setIcon(new ImageIcon(img));
+    } catch (Exception ex) {
+        System.out.println(ex);
+    }
     choice.add(earth);
     earth.setBackground(Color.gray);
+    try {
+        Image img = ImageIO.read(getClass().getResource("img/earth.png"));
+        earth.setIcon(new ImageIcon(img));
+    } catch (Exception ex) {
+        System.out.println(ex);
+    }
 
     fire.addActionListener(new ActionListener() {
         @Override
