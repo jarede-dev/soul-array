@@ -829,14 +829,14 @@ private void showWinner() {
 
 public void Elemental() {
     elementalPanel = new JPanel();
-        elementalPanel.setBounds(150, 150, 500, 150);
-        elementalPanel.setBackground(Color.white);
-        elementalArea = new JTextArea("");
-        elementalArea.setForeground(Color.black);
-        elementalArea.setFont(normalFont);
-        
-        elementalPanel.add(elementalArea);
-        window.add(elementalPanel);
+    elementalPanel.setBounds(150, 150, 500, 150);
+    elementalPanel.setBackground(Color.white);
+    elementalArea = new JTextArea("");
+    elementalArea.setForeground(Color.black);
+    elementalArea.setFont(normalFont);
+    
+    elementalPanel.add(elementalArea);
+    window.add(elementalPanel);
     if (gamesButtons != null)
         gamesButtons.setVisible(false);
     if (menuButton != null)
