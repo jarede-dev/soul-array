@@ -30,7 +30,7 @@ public class soulArray {
 
     // horses
     JPanel horses;
-    JButton cerberus, persephone, hades, voskopoulos, tom;
+    JButton CERBERUS, PERSEPHONE, HADES, VOSKOPOULOS, TOM;
     final String[] selectedHorse = {""};
     // horse racing panels
     JLabel hrTitle, hrSubtitle, hrEnterBet, hrInputLabel, winnerLabel, theWinnerIsLabel;
@@ -625,11 +625,11 @@ public void horseRacing(){
     horses.setLayout(new GridLayout(5, 1));
     window.add(horses); 
 
-    cerberus = choiceButton("Cerberus");
-    persephone = choiceButton("Persephone");
-    hades = choiceButton("Hades");
-    voskopoulos = choiceButton("Voskopoulos");
-    tom = choiceButton("Tom");
+    CERBERUS = choiceButton("CERBERUS");
+    PERSEPHONE = choiceButton("PERSEPHONE");
+    HADES = choiceButton("HADES");
+    VOSKOPOULOS = choiceButton("VOSKOPOULOS");
+    TOM = choiceButton("TOM");
 
     hrInputPanel = new JPanel();
 
@@ -674,17 +674,17 @@ public void horseRacing(){
         hrInputButton.addActionListener(placeButtonAction);
     };
 
-    cerberus.addActionListener(horseSelectionAction);
-    persephone.addActionListener(horseSelectionAction);
-    hades.addActionListener(horseSelectionAction);
-    voskopoulos.addActionListener(horseSelectionAction);
-    tom.addActionListener(horseSelectionAction);
+    CERBERUS.addActionListener(horseSelectionAction);
+    PERSEPHONE.addActionListener(horseSelectionAction);
+    HADES.addActionListener(horseSelectionAction);
+    VOSKOPOULOS.addActionListener(horseSelectionAction);
+    TOM.addActionListener(horseSelectionAction);
 
-    horses.add(cerberus);
-    horses.add(persephone);
-    horses.add(hades);
-    horses.add(voskopoulos);
-    horses.add(tom);
+    horses.add(CERBERUS);
+    horses.add(PERSEPHONE);
+    horses.add(HADES);
+    horses.add(VOSKOPOULOS);
+    horses.add(TOM);
 
     hrBetPanel = new JPanel();
     hrBetPanel.setBounds(150, 240, 500, 80);
@@ -769,7 +769,25 @@ private void showWinner() {
 
     window.add(otherHorsesPanel);
     window.add(horsePodiumPanel);
+    
+    if (winningHorse.equals(selectedHorse[0])) {
+        coinsWon = 4 * betAmount;
+        coins += coinsWon; 
+        JOptionPane.showMessageDialog(window, "You won " + coinsWon + " coins!");
+    } else {
+        coinsWon = -betAmount;
+        coins += coinsWon; 
+        JOptionPane.showMessageDialog(window, "You lost " + betAmount + " coins.");
+    }
+    coinsText.setText("Coins: " + coins);
 
+    coinsPanel.setBounds(300, 80, 200, 50);
+
+    Timer timer = new Timer(5000, e -> {
+        mainMenu(); 
+    });
+    timer.setRepeats(false); 
+    timer.start(); 
 }
 
 public void Elemental() {
