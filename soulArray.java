@@ -8,12 +8,16 @@ import java.util.Arrays;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class soulArray {
 
     JFrame window;
     JPanel titleNamePanel, startButtonPanel, mainTextPanel, storyContinuePanel, menuPanel, menuButton, coinsPanel, goBackToMainPanel, userHpLabel, oppHpLabel, bodyTextPanel, fighPassPanel, turnPanel, elementalPanel;
     JLabel titleTextLabel, menuTitle, coinsText, userHp, oppHp, turnText;
+    private static final String coinsPath = "coinsTrack.csv";
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     Font subFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -58,7 +62,7 @@ public class soulArray {
     ArrayList<Integer> sellArrayPrice = new ArrayList<>(Arrays.asList(800, 1250, 1000, 750, 900));
 
     //dance with the dimonyo variables
-    private int coins = 10000;
+    private int coins = 50;
     private boolean playerTurn = true;
     private boolean hasChosen = false;
     private int userDmg = 100;
@@ -512,8 +516,18 @@ public class soulArray {
 }
 
 private void showLoseScreen() {
-        bodyTextArea.setText("You Lose! -2000 coins");
-        coins += 2000;
+    bodyTextArea.setText("You Lose! -2000 coins");
+    coins -= 2000;
+    if(coins <= 0){
+        goBackToMainB.setVisible(false);
+        userHpLabel.setVisible(false);
+        oppHpLabel.setVisible(false);
+        turnPanel.setVisible(false);
+        fighPassPanel.setVisible(false);
+
+        bodyTextArea.setText("You have no coins left, you lose");
+        bodyTextArea.setEditable(false);
+    } else{
         if (endGameTimer != null) {
             endGameTimer.stop();
         }
@@ -527,8 +541,8 @@ private void showLoseScreen() {
         });
         endGameTimer.setRepeats(false);
         endGameTimer.start();
+    }
 }
-
 private void resetGame() {
     // Hide all panels used in danceWdevil
     if (gamesButtons != null) gamesButtons.setVisible(false);
@@ -835,7 +849,15 @@ private void playGame(String userChoice) {
         coinsText.setText("Coins: " + coins);
     }
 
-    elementalArea.setText("You chose " + userChoice + "\nComputer chose " + computerChoice + "\n" + result);
+    if(coins <= 0){
+        goBackToMainB.setVisible(false);
+        choice.setVisible(false);
+        elementalArea.setText("You have no coins left, you lose");
+        elementalArea.setEditable(false);
+    } else{
+        elementalArea.setText("You chose " + userChoice + "\nComputer chose " + computerChoice + "\n" + result);
+        elementalArea.setEditable(false);
+    }
 }
 
     public JButton choiceButton(String text) {
@@ -1117,6 +1139,13 @@ private void playGame(String userChoice) {
 
     public class QuitHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
+            try{
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(coinsPath));
+                    writer.write(String.valueOf(coins));
+                    writer.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
             System.exit(0);
         }
     }
