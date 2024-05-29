@@ -30,7 +30,7 @@ public class soulArray {
     JPanel organsButtons;
     JButton brain, guts, hands, heart, legs, eyes, lungs, kidney, teeth, skin;
 
-    // horses
+    // horses GWAPO SI SIR ICE
     JPanel horses;
     JButton cerberus, persephone, hades, voskopoulos, tom;
     final String[] selectedHorse = {""};
