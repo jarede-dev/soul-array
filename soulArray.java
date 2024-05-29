@@ -209,7 +209,7 @@ public class soulArray {
         window.add(menuPanel);
 
         menuButton = new JPanel();
-        menuButton.setBounds(225, 350, 300, 150);
+        menuButton.setBounds(250, 350, 300, 150);
         menuButton.setBackground(Color.black);
         menuButton.setLayout(new GridLayout(2, 2));
         window.add(menuButton); 
