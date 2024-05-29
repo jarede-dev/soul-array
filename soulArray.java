@@ -32,7 +32,7 @@ public class soulArray {
 
     // horses
     JPanel horses;
-    JButton CERBERUS, PERSEPHONE, HADES, VOSKOPOULOS, TOM;
+    JButton cerberus, persephone, hades, voskopoulos, tom;
     final String[] selectedHorse = {""};
     // horse racing panels
     JLabel hrTitle, hrSubtitle, hrEnterBet, hrInputLabel, winnerLabel, theWinnerIsLabel;
@@ -401,7 +401,7 @@ public class soulArray {
         fighPassPanel.add(cont);
         fighPassPanel.add(pass);
         window.add(fighPassPanel);
-
+        
         updateTurnUI(playerTurn);
         fight.addActionListener(new ActionListener() {
             @Override
@@ -638,11 +638,11 @@ public void horseRacing(){
     horses.setLayout(new GridLayout(5, 1));
     window.add(horses); 
 
-    CERBERUS = choiceButton("CERBERUS");
-    PERSEPHONE = choiceButton("PERSEPHONE");
-    HADES = choiceButton("HADES");
-    VOSKOPOULOS = choiceButton("VOSKOPOULOS");
-    TOM = choiceButton("TOM");
+    cerberus = choiceButton("Cerberus");
+    persephone = choiceButton("Persephone");
+    hades = choiceButton("Hades");
+    voskopoulos = choiceButton("Voskopoulos");
+    tom = choiceButton("Tom");
 
     hrInputPanel = new JPanel();
 
@@ -687,17 +687,17 @@ public void horseRacing(){
         hrInputButton.addActionListener(placeButtonAction);
     };
 
-    CERBERUS.addActionListener(horseSelectionAction);
-    PERSEPHONE.addActionListener(horseSelectionAction);
-    HADES.addActionListener(horseSelectionAction);
-    VOSKOPOULOS.addActionListener(horseSelectionAction);
-    TOM.addActionListener(horseSelectionAction);
+    cerberus.addActionListener(horseSelectionAction);
+    persephone.addActionListener(horseSelectionAction);
+    hades.addActionListener(horseSelectionAction);
+    voskopoulos.addActionListener(horseSelectionAction);
+    tom.addActionListener(horseSelectionAction);
 
-    horses.add(CERBERUS);
-    horses.add(PERSEPHONE);
-    horses.add(HADES);
-    horses.add(VOSKOPOULOS);
-    horses.add(TOM);
+    horses.add(cerberus);
+    horses.add(persephone);
+    horses.add(hades);
+    horses.add(voskopoulos);
+    horses.add(tom);
 
     hrBetPanel = new JPanel();
     hrBetPanel.setBounds(150, 240, 500, 80);
@@ -782,25 +782,7 @@ private void showWinner() {
 
     window.add(otherHorsesPanel);
     window.add(horsePodiumPanel);
-    
-    if (winningHorse.equals(selectedHorse[0])) {
-        coinsWon = 4 * betAmount;
-        coins += coinsWon; 
-        JOptionPane.showMessageDialog(window, "You won " + coinsWon + " coins!");
-    } else {
-        coinsWon = -betAmount;
-        coins += coinsWon; 
-        JOptionPane.showMessageDialog(window, "You lost " + betAmount + " coins.");
-    }
-    coinsText.setText("Coins: " + coins);
 
-    coinsPanel.setBounds(300, 80, 200, 50);
-
-    Timer timer = new Timer(5000, e -> {
-        mainMenu(); 
-    });
-    timer.setRepeats(false); 
-    timer.start(); 
 }
 
 public void Elemental() {
@@ -848,7 +830,7 @@ public void Elemental() {
         System.out.println(ex);
     }
     choice.add(earth);
-    earth.setBackground(Color.gray);
+    earth.setBackground(Color.green);
     try {
         Image img = ImageIO.read(getClass().getResource("img/earth.png"));
         earth.setIcon(new ImageIcon(img));
