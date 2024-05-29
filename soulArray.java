@@ -1,3 +1,5 @@
+package GUI;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -362,7 +364,7 @@ public class soulArray {
         fight.setFocusPainted(false);
 
         try {
-            Image img = ImageIO.read(getClass().getResource("img/punch.png"));
+            Image img = ImageIO.read(getClass().getResource("img/fight.png"));
             fight.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -376,7 +378,7 @@ public class soulArray {
         pass.setFocusPainted(false);
 
         try {
-            Image img = ImageIO.read(getClass().getResource("img/passPic.png"));
+            Image img = ImageIO.read(getClass().getResource("img/pass.png"));
             pass.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -387,6 +389,13 @@ public class soulArray {
         cont.setForeground(Color.white);
         cont.setFont(normalFont);
         cont.setFocusPainted(false);
+
+        try {
+            Image img = ImageIO.read(getClass().getResource("img/continue.png"));
+            cont.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
         fighPassPanel.add(fight);
         fighPassPanel.add(cont);
