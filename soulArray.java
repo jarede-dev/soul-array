@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +6,9 @@ import java.util.Arrays;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -81,7 +81,11 @@ public class soulArray {
     }
 
     public soulArray(){
-        
+        try (BufferedReader reader = new BufferedReader(new FileReader(coinsPath))) {
+            coins = Integer.parseInt(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         window = new JFrame();
         window.setSize(800, 600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1139,13 +1143,11 @@ private void playGame(String userChoice) {
 
     public class QuitHandler implements ActionListener {
         public void actionPerformed(ActionEvent event){
-            try{
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(coinsPath));
-                    writer.write(String.valueOf(coins));
-                    writer.close();
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("coinsTrack.csv"))) {
+                writer.write(String.valueOf(coins));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.exit(0);
         }
     }
