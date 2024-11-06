@@ -41,7 +41,7 @@ public class soulArray {
     JTextField hrInputField;
     JButton hrInputButton;
 
-    // rps elements
+    // elements 
     JButton fire, water, earth;
     //games
     JLabel choice;
